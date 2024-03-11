@@ -1,5 +1,5 @@
 import { Types } from "../../types";
-import { SnakeCoordinates } from "./reversed-queue.ts";
+import { SnakeCoordinates } from "./snake-coordinates.ts";
 
 const initialSnakeCoordinates: Types.ICoordinates[] = [
   { x: 10, y: 10 },
@@ -9,7 +9,7 @@ const initialSnakeCoordinates: Types.ICoordinates[] = [
   { x: 50, y: 10 },
 ];
 
-describe("SnakeCoordinates:", () => {
+describe("Class SnakeCoordinates:", () => {
   it("should implement method 'getItems' correctly", () => {
     const snakeCoordinates = new SnakeCoordinates(initialSnakeCoordinates);
     expect(snakeCoordinates.getItems()).toEqual(initialSnakeCoordinates);
