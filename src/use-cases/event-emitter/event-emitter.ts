@@ -7,7 +7,7 @@ type SubscribeDetails = {
 
 export interface IEventEmitter {
   subscribe(subscribeDetails: SubscribeDetails): void;
-  emit(event: Types.Event): void;
+  emit<PayloadType>(event: Types.Event<PayloadType>): void;
 }
 
 type Subscribers = {
@@ -30,7 +30,7 @@ export class EventEmitter implements IEventEmitter {
     ];
   };
 
-  public emit = (event: Types.Event) => {
+  public emit = <PayloadType>(event: Types.Event<PayloadType>) => {
     const subscribersByEventType = this.subscribers[event.type];
 
     if (subscribersByEventType) {

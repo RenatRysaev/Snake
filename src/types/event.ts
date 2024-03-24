@@ -5,15 +5,11 @@ export enum EventType {
   Render = "Render",
 }
 
-// TODO: сделать Payload дженериком, чтобы была возможность его типизировать
+export type Payload<PayloadType> = { [key: string]: PayloadType };
 
-export type Payload = { [key: string]: unknown };
+export type Subscriber = (payload: Payload<any>) => void;
 
-export interface Subscriber {
-  (payload: Payload): void;
-}
-
-export type Event = {
+export type Event<PayloadType> = {
   type: EventType;
-  payload?: Payload;
+  payload?: PayloadType;
 };

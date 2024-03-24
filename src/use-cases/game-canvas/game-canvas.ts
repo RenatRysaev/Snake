@@ -18,5 +18,10 @@ export class GameCanvas implements Domain.IGameCanvas {
     });
   }
 
-  public render = (payload: Types.Payload) => {};
+  public render = (
+    payload: Types.Payload<{ canvasSubject: Types.ICanvasSubject }>,
+  ) => {
+    const { canvasSubject } = payload;
+    console.log("should render", canvasSubject);
+  };
 }
