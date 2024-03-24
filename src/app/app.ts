@@ -1,3 +1,4 @@
+import { Constants } from "../constants";
 import { Controllers } from "../controllers";
 import { UseCases } from "../use-cases";
 
@@ -21,15 +22,15 @@ if (rootElement) {
   rootElement.appendChild(endGameButton);
 
   const gameCanvasElement = document.createElement("canvas");
-  gameCanvasElement.style.width = "700px";
-  gameCanvasElement.style.height = "700px";
+  gameCanvasElement.style.width = `${Constants.GAME_CANVAS_SIZE.width}px`;
+  gameCanvasElement.style.height = `${Constants.GAME_CANVAS_SIZE.height}px`;
   rootElement.appendChild(gameCanvasElement);
 }
 
 /*
  * Задачи:
- * 1) реализовать класс змеи
- * 2) реализовать класс еды
- * 3) релизовать класс канваса и отрисовку всего на поле
+ * 1) реализовать класс змеи(ок)
+ * 2) реализовать класс еды(необходимо генерировать еду в случайном месте, в пределах игрового поля и исключая координаты змеи)
+ * 3) релизовать класс канваса и отрисовку всего на поле(необходимо каким-то образом подписаться на изменения координат змеи и еды и рисовать их)
  * 4) реализовать класс движка, логику работы игры
  * */

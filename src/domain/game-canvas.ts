@@ -1,5 +1,5 @@
 import { Types } from "../types";
 
 export interface IGameCanvas {
-  draw(figure: Types.ICanvasSubject): void;
+  render(payload: Types.Payload): void;
 }

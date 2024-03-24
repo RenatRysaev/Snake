@@ -7,4 +7,6 @@ export class Food implements Domain.IFood {
   public getCoordinates(): Types.ICoordinates[] {
     return [];
   }
+
+  public generateNew() {}
 }

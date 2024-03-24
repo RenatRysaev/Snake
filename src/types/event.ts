@@ -1,8 +1,11 @@
 export enum EventType {
   StartGame = "StartGame",
   StopGame = "StopGame",
-  ReplaceFood = "ReplaceFood",
+  GenerateNewFood = "GenerateNewFood",
+  Render = "Render",
 }
+
+// TODO: сделать Payload дженериком, чтобы была возможность его типизировать
 
 export type Payload = { [key: string]: unknown };
 
