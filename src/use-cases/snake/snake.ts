@@ -2,37 +2,47 @@ import { Types } from "../../types";
 import { Domain } from "../../domain";
 import { Constants } from "../../constants";
 import { ISnakeCoordinates } from "../snake-coordinates";
+import { IEventEmitter } from "../event-emitter";
 
 type Props = {
+  EventEmitter: IEventEmitter;
   coordinates: ISnakeCoordinates;
   direction: Types.Direction;
 };
 
 export class Snake implements Domain.ISnake {
+  private EventEmitter: IEventEmitter;
   private coordinates: ISnakeCoordinates;
   private direction: Types.Direction;
 
   constructor(props: Props) {
+    this.EventEmitter = props.EventEmitter;
+
     this.coordinates = props.coordinates;
     this.direction = props.direction;
+
+    this.EventEmitter.subscribe({
+      eventType: Types.EventType.ChangeSnakeDirection,
+      subscriber: this.changeDirection,
+    });
   }
 
-  public moveByDirection() {
+  public moveByDirection = () => {
     this.coordinates.insertInHead(this.createCoordinatesForMove());
     this.coordinates.deleteLastItem();
-  }
+  };
 
-  public changeDirection(direction: Types.Direction) {
+  public changeDirection = (direction: Types.Direction) => {
     this.direction = direction;
-  }
+  };
 
-  public increase() {
+  public increase = () => {
     this.coordinates.insertInEnd(this.createCoordinatesForIncrease());
-  }
+  };
 
-  public getCoordinates(): Types.ICoordinates[] {
+  public getCoordinates = (): Types.ICoordinates[] => {
     return this.coordinates.getItems();
-  }
+  };
 
   private createCoordinatesForMove = (): Types.ICoordinatesWithDirection => {
     const currentHeadCoordinates = this.coordinates.head();
@@ -62,11 +72,11 @@ export class Snake implements Domain.ISnake {
       };
     }
 
-    if (this.direction === Types.Direction.Bottom) {
+    if (this.direction === Types.Direction.Down) {
       newHeadCoordinates = {
         x: currentHeadCoordinates.x,
         y: currentHeadCoordinates.y + Constants.PIXEL_SIZE,
-        direction: Types.Direction.Bottom,
+        direction: Types.Direction.Down,
       };
     }
 
@@ -102,11 +112,11 @@ export class Snake implements Domain.ISnake {
         };
       }
 
-      if (currentEndCoordinates.direction === Types.Direction.Bottom) {
+      if (currentEndCoordinates.direction === Types.Direction.Down) {
         coordinatesForIncrease = {
           x: currentEndCoordinates.x,
           y: currentEndCoordinates.y - Constants.PIXEL_SIZE,
-          direction: Types.Direction.Bottom,
+          direction: Types.Direction.Down,
         };
       }
 

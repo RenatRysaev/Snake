@@ -43,7 +43,7 @@ export class Engine implements IEngine {
   }
 
   public run = () => {
-    this.runLogic();
+    this.tick();
 
     this.runId = setInterval(() => {
       this.run();
@@ -54,12 +54,15 @@ export class Engine implements IEngine {
     if (this.runId) {
       clearInterval(this.runId);
     }
+
+    this.gameOver();
   };
 
-  private runLogic = () => {
+  private tick = () => {
+    this.render();
+
     if (this.hasIntersectionBySnakeAndBorder()) {
-      this.EventEmitter.emit({ type: Types.EventType.StopGame });
-      return;
+      this.gameOver();
     }
 
     if (this.hasIntersectionBySnakeAndFood()) {
@@ -73,6 +76,19 @@ export class Engine implements IEngine {
     this.Snake.moveByDirection();
   };
 
+  private render = () => {
+    this.EventEmitter.emit({
+      type: Types.EventType.Render,
+      payload: this.Snake,
+    });
+
+    this.EventEmitter.emit({
+      type: Types.EventType.Render,
+      payload: this.Food,
+    });
+  };
+
+  // TODO: кажется, что эти методы надо вынести в отдельные классы с логикой змеи
   private hasIntersectionBySnakeAndBorder = (): boolean => {
     const snakeHeadCoordinates = this.Snake.getCoordinates()[0];
 
@@ -96,4 +112,6 @@ export class Engine implements IEngine {
       snakeHeadCoordinates.y === foodCoordinates.y
     );
   };
+
+  private gameOver = () => {};
 }
