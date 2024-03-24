@@ -1,7 +1,12 @@
 import { Types } from "../../types";
 
+type SubscribeDetails = {
+  eventType: Types.EventType;
+  subscriber: Types.Subscriber;
+};
+
 export interface IEventEmitter {
-  subscribe(eventType: Types.EventType, callback: Types.Subscriber): void;
+  subscribe(subscribeDetails: SubscribeDetails): void;
   emit(event: Types.Event): void;
 }
 
@@ -16,10 +21,9 @@ export class EventEmitter implements IEventEmitter {
     this.subscribers = {};
   }
 
-  public subscribe = (
-    eventType: Types.EventType,
-    subscriber: Types.Subscriber,
-  ) => {
+  public subscribe = (subscribeDetails: SubscribeDetails) => {
+    const { eventType, subscriber } = subscribeDetails;
+
     this.subscribers[eventType] = [
       ...(this.subscribers[eventType] ?? []),
       subscriber,

@@ -4,5 +4,7 @@ import { Domain } from "../../domain";
 export class Food implements Domain.IFood {
   constructor() {}
 
-  getCoordinates(): Types.ICoordinates[] {}
+  public getCoordinates(): Types.ICoordinates[] {
+    return [];
+  }
 }

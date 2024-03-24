@@ -9,9 +9,18 @@ describe("Class EventEmitter", () => {
     const startGameMockSubscriber2 = jest.fn();
     const stopGameMockSubscriber = jest.fn();
 
-    eventEmitter.subscribe(Types.EventType.StartGame, startGameMockSubscriber1);
-    eventEmitter.subscribe(Types.EventType.StartGame, startGameMockSubscriber2);
-    eventEmitter.subscribe(Types.EventType.StopGame, stopGameMockSubscriber);
+    eventEmitter.subscribe({
+      eventType: Types.EventType.StartGame,
+      subscriber: startGameMockSubscriber1,
+    });
+    eventEmitter.subscribe({
+      eventType: Types.EventType.StartGame,
+      subscriber: startGameMockSubscriber2,
+    });
+    eventEmitter.subscribe({
+      eventType: Types.EventType.StopGame,
+      subscriber: stopGameMockSubscriber,
+    });
 
     eventEmitter.emit({ type: Types.EventType.StartGame });
     expect(startGameMockSubscriber1).toHaveBeenCalledTimes(1);
@@ -25,7 +34,10 @@ describe("Class EventEmitter", () => {
     const eventEmitter = new EventEmitter();
     const mockSubscriber = jest.fn();
 
-    eventEmitter.subscribe(Types.EventType.StartGame, mockSubscriber);
+    eventEmitter.subscribe({
+      eventType: Types.EventType.StartGame,
+      subscriber: mockSubscriber,
+    });
     eventEmitter.emit({ type: Types.EventType.StopGame });
     expect(mockSubscriber).toHaveBeenCalledTimes(0);
   });

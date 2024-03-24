@@ -1,6 +1,7 @@
 export enum EventType {
   StartGame = "StartGame",
   StopGame = "StopGame",
+  ReplaceFood = "ReplaceFood",
 }
 
 export type Payload = { [key: string]: unknown };
