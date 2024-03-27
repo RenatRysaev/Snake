@@ -1,31 +1,57 @@
 import { Constants } from "../constants";
+import { Types } from "../types";
 import { Controllers } from "../controllers";
 import { UseCases } from "../use-cases";
 
-const eventEmitter = new UseCases.EventEmitter();
+const initialize = () => {
+  const eventEmitter = new UseCases.EventEmitter();
+  const snake = new UseCases.Snake({
+    EventEmitter: eventEmitter,
+    direction: Types.Direction.Right,
+    coordinates: new UseCases.SnakeCoordinates([
+      { x: 10, y: 10, direction: Types.Direction.Right },
+      { x: 20, y: 10, direction: Types.Direction.Right },
+      { x: 30, y: 10, direction: Types.Direction.Right },
+      { x: 40, y: 10, direction: Types.Direction.Right },
+      { x: 50, y: 10, direction: Types.Direction.Right },
+    ]),
+  });
+  const food = new UseCases.Food();
+  const gameScore = new UseCases.GameScore();
+  const engine = new UseCases.Engine({
+    EventEmitter: eventEmitter,
+    Snake: snake,
+    Food: food,
+    GameScore: gameScore,
+  });
 
-const gameController = new Controllers.GameController({
-  EventEmitter: eventEmitter,
-});
+  console.log("initialized", engine);
 
-const rootElement = document.getElementById("app");
+  const gameController = new Controllers.GameController({
+    EventEmitter: eventEmitter,
+  });
 
-if (rootElement) {
-  const startGameButton = document.createElement("button");
-  startGameButton.onclick = gameController.handleStartGame;
-  startGameButton.innerText = "Start game";
-  rootElement.appendChild(startGameButton);
+  const rootElement = document.getElementById("app");
 
-  const endGameButton = document.createElement("button");
-  endGameButton.onclick = gameController.handleStopGame;
-  endGameButton.innerText = "Stop game";
-  rootElement.appendChild(endGameButton);
+  if (rootElement) {
+    const startGameButton = document.createElement("button");
+    startGameButton.onclick = gameController.handleStartGame;
+    startGameButton.innerText = "Start game";
+    rootElement.appendChild(startGameButton);
 
-  const gameCanvasElement = document.createElement("canvas");
-  gameCanvasElement.style.width = `${Constants.GAME_CANVAS_SIZE.width}px`;
-  gameCanvasElement.style.height = `${Constants.GAME_CANVAS_SIZE.height}px`;
-  rootElement.appendChild(gameCanvasElement);
-}
+    const endGameButton = document.createElement("button");
+    endGameButton.onclick = gameController.handleStopGame;
+    endGameButton.innerText = "Stop game";
+    rootElement.appendChild(endGameButton);
+
+    const gameCanvasElement = document.createElement("canvas");
+    gameCanvasElement.style.width = `${Constants.GAME_CANVAS_SIZE.width}px`;
+    gameCanvasElement.style.height = `${Constants.GAME_CANVAS_SIZE.height}px`;
+    rootElement.appendChild(gameCanvasElement);
+  }
+};
+
+initialize();
 
 /*
  * Задачи:
