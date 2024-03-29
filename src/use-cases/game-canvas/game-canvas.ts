@@ -22,20 +22,22 @@ export class GameCanvas implements Domain.IGameCanvas {
     });
   }
 
-  public render = (
-    payload: Types.Payload<{ canvasSubject: Types.ICanvasSubject }>,
-  ) => {
-    const coordinates = payload.canvasSubject.getCoordinates();
-    const ctx = this.Canvas.getContext("2d");
+  public render = (event: Types.Event<Types.ICanvasSubject>) => {
+    const { payload } = event;
 
-    if (ctx) {
-      ctx.clearRect(0, 0, Constants.PIXEL_SIZE, Constants.PIXEL_SIZE);
+    if (payload) {
+      const coordinates = payload.getCoordinates();
+      const ctx = this.Canvas.getContext("2d");
 
-      ctx.fillStyle = Constants.SNAKE_COLOR;
+      if (ctx) {
+        ctx.clearRect(0, 0, Constants.PIXEL_SIZE, Constants.PIXEL_SIZE);
 
-      coordinates.forEach(({ x, y }) => {
-        ctx.fillRect(x, y, Constants.PIXEL_SIZE, Constants.PIXEL_SIZE);
-      });
+        ctx.fillStyle = Constants.SNAKE_COLOR;
+
+        coordinates.forEach(({ x, y }) => {
+          ctx.fillRect(x, y, Constants.PIXEL_SIZE, Constants.PIXEL_SIZE);
+        });
+      }
     }
   };
 }

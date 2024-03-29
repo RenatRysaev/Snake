@@ -48,6 +48,15 @@ const initialize = () => {
     gameCanvasElement.style.width = `${Constants.GAME_CANVAS_SIZE.width}px`;
     gameCanvasElement.style.height = `${Constants.GAME_CANVAS_SIZE.height}px`;
     rootElement.appendChild(gameCanvasElement);
+
+    const gameCanvas = new UseCases.GameCanvas({
+      EventEmitter: eventEmitter,
+      Canvas: gameCanvasElement,
+    });
+
+    const snakeController = new Controllers.SnakeController({
+      EventEmitter: eventEmitter,
+    });
   }
 };
 

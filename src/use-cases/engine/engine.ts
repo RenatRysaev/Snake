@@ -56,7 +56,7 @@ export class Engine implements IEngine {
       if (this.runId) {
         clearInterval(this.runId);
       }
-    }, 10000);
+    }, 1000);
   };
 
   public stop = () => {
