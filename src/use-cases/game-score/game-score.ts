@@ -1,9 +1,17 @@
 import { Domain } from "../../domain";
 
 export class GameScore implements Domain.IGameScore {
-  public increase() {}
+  private score: number;
 
-  public getResult(): number {
-    return 777;
+  constructor() {
+    this.score = 0;
+  }
+
+  public increase() {
+    this.score += 1;
+  }
+
+  public getScore(): number {
+    return this.score;
   }
 }

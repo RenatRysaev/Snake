@@ -1,4 +1,4 @@
 export interface IGameScore {
   increase(): void;
-  getResult(): number;
+  getScore(): number;
 }
