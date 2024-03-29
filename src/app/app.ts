@@ -9,11 +9,11 @@ const initialize = () => {
     EventEmitter: eventEmitter,
     direction: Types.Direction.Right,
     coordinates: new UseCases.SnakeCoordinates([
-      { x: 10, y: 10, direction: Types.Direction.Right },
-      { x: 20, y: 10, direction: Types.Direction.Right },
-      { x: 30, y: 10, direction: Types.Direction.Right },
-      { x: 40, y: 10, direction: Types.Direction.Right },
       { x: 50, y: 10, direction: Types.Direction.Right },
+      { x: 40, y: 10, direction: Types.Direction.Right },
+      { x: 30, y: 10, direction: Types.Direction.Right },
+      { x: 20, y: 10, direction: Types.Direction.Right },
+      { x: 10, y: 10, direction: Types.Direction.Right },
     ]),
   });
   const food = new UseCases.Food();

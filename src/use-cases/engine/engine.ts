@@ -4,7 +4,7 @@ import { Constants } from "../../constants";
 import { IEventEmitter } from "../event-emitter";
 
 export interface IEngine {
-  run(): void;
+  start(): void;
   stop(): void;
 }
 
@@ -33,7 +33,7 @@ export class Engine implements IEngine {
 
     this.EventEmitter.subscribe({
       eventType: Types.EventType.StartGame,
-      subscriber: this.run,
+      subscriber: this.start,
     });
 
     this.EventEmitter.subscribe({
@@ -42,12 +42,21 @@ export class Engine implements IEngine {
     });
   }
 
+  public start = () => {
+    this.initialize();
+    this.run();
+  };
+
   public run = () => {
     this.tick();
 
     this.runId = setInterval(() => {
       this.run();
-    }, 60);
+
+      if (this.runId) {
+        clearInterval(this.runId);
+      }
+    }, 10000);
   };
 
   public stop = () => {
@@ -59,6 +68,7 @@ export class Engine implements IEngine {
   };
 
   private tick = () => {
+    console.log("tick", this);
     this.render();
 
     if (this.hasIntersectionBySnakeAndBorder()) {
@@ -68,7 +78,7 @@ export class Engine implements IEngine {
     if (this.hasIntersectionBySnakeAndFood()) {
       this.Snake.moveByDirection();
       this.Snake.increase();
-      this.Food.generateNew();
+      this.Food.generateNew(this.Snake.getCoordinates());
       this.GameScore.increase();
       return;
     }
@@ -87,6 +97,10 @@ export class Engine implements IEngine {
       payload: this.Food,
     });
   };
+
+  private initialize() {
+    this.Food.generateNew(this.Snake.getCoordinates());
+  }
 
   // TODO: кажется, что эти методы надо вынести в отдельные классы с логикой змеи
   private hasIntersectionBySnakeAndBorder = (): boolean => {
