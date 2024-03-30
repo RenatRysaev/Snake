@@ -55,27 +55,27 @@ describe("Class Snake", () => {
     ]);
   });
 
-  it("should implement method 'moveByDirection' with 'Top' direction correctly", () => {
+  it("should implement method 'moveByDirection' with 'Up' direction correctly", () => {
     const snakeCoordinates = new SnakeCoordinates([
-      { x: 10, y: 10, direction: Types.Direction.Top },
-      { x: 10, y: 20, direction: Types.Direction.Top },
-      { x: 10, y: 30, direction: Types.Direction.Top },
-      { x: 10, y: 40, direction: Types.Direction.Top },
-      { x: 10, y: 50, direction: Types.Direction.Top },
+      { x: 10, y: 10, direction: Types.Direction.Up },
+      { x: 10, y: 20, direction: Types.Direction.Up },
+      { x: 10, y: 30, direction: Types.Direction.Up },
+      { x: 10, y: 40, direction: Types.Direction.Up },
+      { x: 10, y: 50, direction: Types.Direction.Up },
     ]);
     const snake = new Snake({
       EventEmitter: eventEmitter,
       coordinates: snakeCoordinates,
-      direction: Types.Direction.Top,
+      direction: Types.Direction.Up,
     });
     snake.moveByDirection();
 
     expect(snake.getCoordinates()).toEqual([
-      { x: 10, y: 10 - Constants.PIXEL_SIZE, direction: Types.Direction.Top },
-      { x: 10, y: 10, direction: Types.Direction.Top },
-      { x: 10, y: 20, direction: Types.Direction.Top },
-      { x: 10, y: 30, direction: Types.Direction.Top },
-      { x: 10, y: 40, direction: Types.Direction.Top },
+      { x: 10, y: 10 - Constants.PIXEL_SIZE, direction: Types.Direction.Up },
+      { x: 10, y: 10, direction: Types.Direction.Up },
+      { x: 10, y: 20, direction: Types.Direction.Up },
+      { x: 10, y: 30, direction: Types.Direction.Up },
+      { x: 10, y: 40, direction: Types.Direction.Up },
     ]);
   });
 
@@ -154,29 +154,29 @@ describe("Class Snake", () => {
     ]);
   });
 
-  it("should implement method 'increase' with 'Top' direction correctly", () => {
+  it("should implement method 'increase' with 'Up' direction correctly", () => {
     const snakeCoordinates = new SnakeCoordinates([
-      { x: 10, y: 10, direction: Types.Direction.Top },
-      { x: 10, y: 20, direction: Types.Direction.Top },
-      { x: 10, y: 30, direction: Types.Direction.Top },
-      { x: 10, y: 40, direction: Types.Direction.Top },
-      { x: 10, y: 50, direction: Types.Direction.Top },
+      { x: 10, y: 10, direction: Types.Direction.Up },
+      { x: 10, y: 20, direction: Types.Direction.Up },
+      { x: 10, y: 30, direction: Types.Direction.Up },
+      { x: 10, y: 40, direction: Types.Direction.Up },
+      { x: 10, y: 50, direction: Types.Direction.Up },
     ]);
 
     const snake = new Snake({
       EventEmitter: eventEmitter,
       coordinates: snakeCoordinates,
-      direction: Types.Direction.Top,
+      direction: Types.Direction.Up,
     });
 
     snake.increase();
     expect(snake.getCoordinates()).toEqual([
-      { x: 10, y: 10, direction: Types.Direction.Top },
-      { x: 10, y: 20, direction: Types.Direction.Top },
-      { x: 10, y: 30, direction: Types.Direction.Top },
-      { x: 10, y: 40, direction: Types.Direction.Top },
-      { x: 10, y: 50, direction: Types.Direction.Top },
-      { x: 10, y: 60, direction: Types.Direction.Top },
+      { x: 10, y: 10, direction: Types.Direction.Up },
+      { x: 10, y: 20, direction: Types.Direction.Up },
+      { x: 10, y: 30, direction: Types.Direction.Up },
+      { x: 10, y: 40, direction: Types.Direction.Up },
+      { x: 10, y: 50, direction: Types.Direction.Up },
+      { x: 10, y: 60, direction: Types.Direction.Up },
     ]);
   });
 

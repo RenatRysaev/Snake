@@ -68,7 +68,6 @@ export class Engine implements IEngine {
   };
 
   private tick = () => {
-    console.log("tick", this);
     this.render();
 
     if (this.hasIntersectionBySnakeAndBorder()) {
@@ -88,13 +87,19 @@ export class Engine implements IEngine {
 
   private render = () => {
     this.EventEmitter.emit({
-      type: Types.EventType.Render,
-      payload: this.Snake,
+      type: Types.EventType.DrawOnCanvas,
+      payload: this.Snake.getCoordinates(),
     });
 
     this.EventEmitter.emit({
-      type: Types.EventType.Render,
-      payload: this.Food,
+      type: Types.EventType.DeleteOnCanvas,
+      payload:
+        this.Snake.getCoordinates()[this.Snake.getCoordinates().length - 1],
+    });
+
+    this.EventEmitter.emit({
+      type: Types.EventType.DrawOnCanvas,
+      payload: this.Food.getCoordinates(),
     });
   };
 

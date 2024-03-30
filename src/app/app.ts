@@ -57,6 +57,10 @@ const initialize = () => {
     const snakeController = new Controllers.SnakeController({
       EventEmitter: eventEmitter,
     });
+
+    window.addEventListener("keydown", (event) => {
+      snakeController.handleChangeDirection(event.code);
+    });
   }
 };
 

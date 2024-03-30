@@ -2,7 +2,8 @@
 export enum EventType {
   StartGame = "StartGame",
   StopGame = "StopGame",
-  Render = "Render",
+  DrawOnCanvas = "DrawOnCanvas",
+  DeleteOnCanvas = "DeleteOnCanvas",
   ChangeSnakeDirection = "ChangeSnakeDirection",
 }
 

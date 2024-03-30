@@ -1,5 +1,6 @@
 import { Types } from "../types";
 
 export interface IGameCanvas {
-  render(payload: Types.Payload): void;
+  draw(coordinates: Types.ICoordinates[]): void;
+  delete(coordinates: Types.ICoordinates): void;
 }

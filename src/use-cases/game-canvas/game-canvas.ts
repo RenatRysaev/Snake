@@ -17,27 +17,51 @@ export class GameCanvas implements Domain.IGameCanvas {
     this.Canvas = props.Canvas;
 
     this.EventEmitter.subscribe({
-      eventType: Types.EventType.Render,
-      subscriber: this.render,
+      eventType: Types.EventType.DrawOnCanvas,
+      subscriber: this.handleDraw,
+    });
+
+    this.EventEmitter.subscribe({
+      eventType: Types.EventType.DeleteOnCanvas,
+      subscriber: this.handleDelete,
     });
   }
 
-  public render = (event: Types.Event<Types.ICanvasSubject>) => {
-    const { payload } = event;
+  public draw = (coordinates: Types.ICoordinates[]): void => {
+    console.log("draw", coordinates);
+    const ctx = this.Canvas.getContext("2d");
 
-    if (payload) {
-      const coordinates = payload.getCoordinates();
-      const ctx = this.Canvas.getContext("2d");
-
-      if (ctx) {
-        ctx.clearRect(0, 0, Constants.PIXEL_SIZE, Constants.PIXEL_SIZE);
-
+    if (ctx) {
+      coordinates.forEach(({ x, y }) => {
         ctx.fillStyle = Constants.SNAKE_COLOR;
+        ctx.fillRect(x, y, Constants.PIXEL_SIZE, Constants.PIXEL_SIZE);
+      });
+      ctx.closePath();
+    }
+  };
 
-        coordinates.forEach(({ x, y }) => {
-          ctx.fillRect(x, y, Constants.PIXEL_SIZE, Constants.PIXEL_SIZE);
-        });
-      }
+  public delete(coordinates: Types.ICoordinates) {
+    const ctx = this.Canvas.getContext("2d");
+
+    if (ctx) {
+      ctx.clearRect(
+        coordinates.x,
+        coordinates.y,
+        Constants.PIXEL_SIZE,
+        Constants.PIXEL_SIZE,
+      );
+    }
+  }
+
+  private handleDraw = (event: Types.Event<Types.ICoordinates[]>) => {
+    if (event.payload) {
+      this.draw(event.payload);
+    }
+  };
+
+  private handleDelete = (event: Types.Event<Types.ICoordinates>) => {
+    if (event.payload) {
+      this.delete(event.payload);
     }
   };
 }

@@ -2,7 +2,7 @@ import { UseCases } from "../use-cases";
 import { Types } from "../types";
 
 export interface ISnakeController {
-  handleChangeDirection(keyCode: number): void;
+  handleChangeDirection(keyCode: string): void;
 }
 
 type SnakeControllerProps = {
@@ -10,10 +10,10 @@ type SnakeControllerProps = {
 };
 
 const MAP_KEY_CODE_TO_SNAKE_DIRECTION = {
-  [37]: Types.Direction.Left,
-  [38]: Types.Direction.Top,
-  [39]: Types.Direction.Right,
-  [40]: Types.Direction.Down,
+  ["ArrowLeft"]: Types.Direction.Left,
+  ["ArrowUp"]: Types.Direction.Up,
+  ["ArrowRight"]: Types.Direction.Right,
+  ["ArrowDown"]: Types.Direction.Down,
 } as const;
 
 export class SnakeController implements ISnakeController {
@@ -23,7 +23,7 @@ export class SnakeController implements ISnakeController {
     this.EventEmitter = props.EventEmitter;
   }
 
-  public handleChangeDirection(keyCode: number) {
+  public handleChangeDirection(keyCode: string) {
     if (
       Object.keys(MAP_KEY_CODE_TO_SNAKE_DIRECTION).includes(String(keyCode))
     ) {

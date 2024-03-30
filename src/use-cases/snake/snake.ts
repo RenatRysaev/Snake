@@ -23,7 +23,7 @@ export class Snake implements Domain.ISnake {
 
     this.EventEmitter.subscribe({
       eventType: Types.EventType.ChangeSnakeDirection,
-      subscriber: this.changeDirection,
+      subscriber: this.handleChangeDirection,
     });
   }
 
@@ -64,11 +64,11 @@ export class Snake implements Domain.ISnake {
       };
     }
 
-    if (this.direction === Types.Direction.Top) {
+    if (this.direction === Types.Direction.Up) {
       newHeadCoordinates = {
         x: currentHeadCoordinates.x,
         y: currentHeadCoordinates.y - Constants.PIXEL_SIZE,
-        direction: Types.Direction.Top,
+        direction: Types.Direction.Up,
       };
     }
 
@@ -104,11 +104,11 @@ export class Snake implements Domain.ISnake {
         };
       }
 
-      if (currentEndCoordinates.direction === Types.Direction.Top) {
+      if (currentEndCoordinates.direction === Types.Direction.Up) {
         coordinatesForIncrease = {
           x: currentEndCoordinates.x,
           y: currentEndCoordinates.y + Constants.PIXEL_SIZE,
-          direction: Types.Direction.Top,
+          direction: Types.Direction.Up,
         };
       }
 
@@ -122,4 +122,8 @@ export class Snake implements Domain.ISnake {
 
       return coordinatesForIncrease as Types.ICoordinatesWithDirection;
     };
+
+  private handleChangeDirection = (event: Types.Event<Types.Direction>) => {
+    this.changeDirection(event.payload as Types.Direction);
+  };
 }
