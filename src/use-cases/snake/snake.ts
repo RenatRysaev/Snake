@@ -40,7 +40,7 @@ export class Snake implements Domain.ISnake {
     this.coordinates.insertInEnd(this.createCoordinatesForIncrease());
   };
 
-  public getCoordinates = (): Types.ICoordinates[] => {
+  public getCoordinates = (): Types.ICoordinatesWithDirection[] => {
     return this.coordinates.getItems();
   };
 

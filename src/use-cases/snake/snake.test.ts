@@ -205,4 +205,36 @@ describe("Class Snake", () => {
       { x: 10, y: 0, direction: Types.Direction.Down },
     ]);
   });
+
+  it("should implement method 'moveByDirection' after change direction correctly", () => {
+    const snakeCoordinates = new SnakeCoordinates([
+      { x: 50, y: 10, direction: Types.Direction.Right },
+      { x: 40, y: 10, direction: Types.Direction.Right },
+      { x: 30, y: 10, direction: Types.Direction.Right },
+      { x: 20, y: 10, direction: Types.Direction.Right },
+      { x: 10, y: 10, direction: Types.Direction.Right },
+    ]);
+
+    const snake = new Snake({
+      EventEmitter: eventEmitter,
+      coordinates: snakeCoordinates,
+      direction: Types.Direction.Right,
+    });
+
+    snake.moveByDirection();
+    snake.changeDirection(Types.Direction.Down);
+    snake.moveByDirection();
+
+    expect(snake.getCoordinates()).toEqual([
+      {
+        x: 50 + Constants.PIXEL_SIZE,
+        y: 10 + Constants.PIXEL_SIZE,
+        direction: Types.Direction.Down,
+      },
+      { x: 50 + Constants.PIXEL_SIZE, y: 10, direction: Types.Direction.Right },
+      { x: 50, y: 10, direction: Types.Direction.Right },
+      { x: 40, y: 10, direction: Types.Direction.Right },
+      { x: 30, y: 10, direction: Types.Direction.Right },
+    ]);
+  });
 });

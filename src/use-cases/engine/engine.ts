@@ -1,7 +1,7 @@
 import { Types } from "../../types";
 import { Domain } from "../../domain";
-import { Constants } from "../../constants";
 import { IEventEmitter } from "../event-emitter";
+import { ISnakeUtils } from "./snake-utils.ts";
 
 export interface IEngine {
   start(): void;
@@ -11,23 +11,24 @@ export interface IEngine {
 type EngineProps = {
   EventEmitter: IEventEmitter;
   Snake: Domain.ISnake;
+  SnakeUtils: ISnakeUtils;
   Food: Domain.IFood;
   GameScore: Domain.IGameScore;
 };
 
 export class Engine implements IEngine {
   private readonly EventEmitter: IEventEmitter;
-
   private readonly Snake: Domain.ISnake;
+  private readonly SnakeUtils: ISnakeUtils;
   private readonly Food: Domain.IFood;
   private readonly GameScore: Domain.IGameScore;
-
   private runId: NodeJS.Timeout | null = null;
 
   constructor(props: EngineProps) {
     this.EventEmitter = props.EventEmitter;
 
     this.Snake = props.Snake;
+    this.SnakeUtils = props.SnakeUtils;
     this.Food = props.Food;
     this.GameScore = props.GameScore;
 
@@ -56,7 +57,7 @@ export class Engine implements IEngine {
       if (this.runId) {
         clearInterval(this.runId);
       }
-    }, 1000);
+    }, 5000);
   };
 
   public stop = () => {
@@ -68,69 +69,28 @@ export class Engine implements IEngine {
   };
 
   private tick = () => {
-    this.render();
-
-    if (this.hasIntersectionBySnakeAndBorder()) {
+    if (this.SnakeUtils.hasIntersectionWithBorder()) {
       this.gameOver();
-    }
-
-    if (this.hasIntersectionBySnakeAndFood()) {
-      this.Snake.moveByDirection();
-      this.Snake.increase();
-      this.Food.generateNew(this.Snake.getCoordinates());
-      this.GameScore.increase();
       return;
     }
 
-    this.Snake.moveByDirection();
-  };
+    // TODO: сделать, чтобы getCoordinates у еды возвращал объект, а не массив, поскольку координаты это все 1 объект
+    const foodCoordinates = this.Food.getCoordinates()[0];
 
-  private render = () => {
-    this.EventEmitter.emit({
-      type: Types.EventType.DrawOnCanvas,
-      payload: this.Snake.getCoordinates(),
-    });
+    if (this.SnakeUtils.hasIntersectionWithFood(foodCoordinates)) {
+      this.Snake.increase();
+      this.GameScore.increase();
+      this.SnakeUtils.moveAndDraw();
+      this.Food.generateNew(this.Snake.getCoordinates());
+      return;
+    }
 
-    this.EventEmitter.emit({
-      type: Types.EventType.DeleteOnCanvas,
-      payload:
-        this.Snake.getCoordinates()[this.Snake.getCoordinates().length - 1],
-    });
-
-    this.EventEmitter.emit({
-      type: Types.EventType.DrawOnCanvas,
-      payload: this.Food.getCoordinates(),
-    });
+    this.SnakeUtils.moveAndDraw();
   };
 
   private initialize() {
     this.Food.generateNew(this.Snake.getCoordinates());
   }
-
-  // TODO: кажется, что эти методы надо вынести в отдельные классы с логикой змеи
-  private hasIntersectionBySnakeAndBorder = (): boolean => {
-    const snakeHeadCoordinates = this.Snake.getCoordinates()[0];
-
-    const hasIntersectionByX =
-      snakeHeadCoordinates.x < 0 &&
-      snakeHeadCoordinates.x > Constants.GAME_CANVAS_SIZE.width;
-
-    const hasIntersectionByY =
-      snakeHeadCoordinates.y < 0 &&
-      snakeHeadCoordinates.y > Constants.GAME_CANVAS_SIZE.height;
-
-    return hasIntersectionByX || hasIntersectionByY;
-  };
-
-  private hasIntersectionBySnakeAndFood = (): boolean => {
-    const snakeHeadCoordinates = this.Snake.getCoordinates()[0];
-    const foodCoordinates = this.Food.getCoordinates()[0];
-
-    return (
-      snakeHeadCoordinates.x === foodCoordinates.x &&
-      snakeHeadCoordinates.y === foodCoordinates.y
-    );
-  };
 
   private gameOver = () => {};
 }
