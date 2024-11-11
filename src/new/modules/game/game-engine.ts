@@ -54,6 +54,7 @@ export class GameEngine {
 
   private tick = () => {
     this.calculatingNewCoordinatesForObjects();
+    this.resolveCollisions();
     this.renderObjects();
   };
 
@@ -61,6 +62,8 @@ export class GameEngine {
     this.snake.move();
     this.food.generate();
   };
+
+  private resolveCollisions = () => {};
 
   private renderObjects = () => {
     this.display.render();
