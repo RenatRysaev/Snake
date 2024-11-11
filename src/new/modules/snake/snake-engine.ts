@@ -25,13 +25,13 @@ export class SnakeEngine {
     return this.direction;
   }
 
-  public handleMove(): void {
+  public move(): void {
     const positionToMove = this.createNewHeadPositionToMove();
     this.snakeDataStructure.insertInHead(positionToMove);
     this.snakeDataStructure.deleteLastItem();
   }
 
-  public handleIncrease(): void {
+  public increase(): void {
     const positionToIncrease = this.createNewEndPositionToIncrease();
     this.snakeDataStructure.insertInEnd(positionToIncrease);
   }

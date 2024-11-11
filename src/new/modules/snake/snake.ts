@@ -10,10 +10,7 @@ export class Snake {
   private engine: SnakeEngine;
 
   constructor(props: Props) {
-    this.engine = new SnakeEngine({
-      direction: props.direction,
-      coordinates: props.coordinates,
-    });
+    this.engine = new SnakeEngine(props);
   }
 
   public setDirection = (direction: Shared.Types.Direction): void => {
@@ -25,11 +22,11 @@ export class Snake {
   };
 
   public move = (): void => {
-    this.engine.handleMove();
+    this.engine.move();
   };
 
   public increase = (): void => {
-    this.engine.handleIncrease();
+    this.engine.increase();
   };
 
   public getCoordinates = (): Shared.Types.PositionLogType[] => {
