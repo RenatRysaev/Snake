@@ -60,12 +60,14 @@ export class GameEngine {
 
   private calculatingNewCoordinatesForObjects = () => {
     this.snake.move();
-    this.food.generate();
+    // this.food.generate();
   };
 
   private resolveCollisions = () => {};
 
   private renderObjects = () => {
-    this.display.render();
+    this.display.render(this.snake.getCoordinates(), {
+      removePreviousRender: true,
+    });
   };
 }
