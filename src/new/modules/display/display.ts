@@ -5,36 +5,35 @@ type RenderOptions = {
 };
 
 type Props = {
-  HTMLCanvasElement: HTMLCanvasElement;
+  canvas: HTMLCanvasElement;
 };
 
 export class Display {
   private readonly pixelSize: number = 10;
-  private canvasRenderingContext: CanvasRenderingContext2D;
+  private renderingContext: CanvasRenderingContext2D;
 
   constructor(props: Props) {
-    const canvasRenderingContext = props.HTMLCanvasElement.getContext("2d");
+    const renderingContext = props.canvas.getContext("2d");
 
-    if (!canvasRenderingContext) {
-      throw new Error(
-        "Display.constructor: Не найден CanvasRenderingContext2D",
-      );
+    if (!renderingContext) {
+      throw new Error("Display.constructor: Не найден renderingContext");
     }
 
-    this.canvasRenderingContext = canvasRenderingContext;
+    this.renderingContext = renderingContext;
   }
 
   public render = (
     coordinates: Shared.Types.PositionType[],
     options?: RenderOptions,
   ): void => {
+    console.log("coordinates", JSON.parse(JSON.stringify(coordinates)));
     if (options?.removePreviousRender) {
       this.clearDisplay();
     }
 
     coordinates.forEach((coordinate) => {
-      this.canvasRenderingContext.fillStyle = "rgb(55, 112, 177)";
-      this.canvasRenderingContext.fillRect(
+      this.renderingContext.fillStyle = "rgb(55, 112, 177)";
+      this.renderingContext.fillRect(
         coordinate.x,
         coordinate.y,
         this.pixelSize,
@@ -44,6 +43,6 @@ export class Display {
   };
 
   private clearDisplay = (): void => {
-    this.canvasRenderingContext.clearRect(0, 0, 10000, 10000);
+    this.renderingContext.clearRect(0, 0, 10000, 10000);
   };
 }

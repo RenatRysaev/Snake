@@ -8,7 +8,7 @@ type Props = {
 
 export class SnakeEngine {
   private snakeDataStructure: SnakeDataStructure;
-  private direction: Props["direction"];
+  private direction: Shared.Types.Direction;
 
   constructor(props: Props) {
     this.snakeDataStructure = new SnakeDataStructure({
@@ -17,30 +17,30 @@ export class SnakeEngine {
     this.direction = props.direction;
   }
 
-  public setDirection(direction: Shared.Types.Direction): void {
+  public setDirection = (direction: Shared.Types.Direction): void => {
     this.direction = direction;
-  }
+  };
 
-  public getDirection(): Shared.Types.Direction {
+  public getDirection = (): Shared.Types.Direction => {
     return this.direction;
-  }
+  };
 
-  public move(): void {
+  public move = (): void => {
     const positionToMove = this.createNewHeadPositionToMove();
     this.snakeDataStructure.insertInHead(positionToMove);
     this.snakeDataStructure.deleteLastItem();
-  }
+  };
 
-  public increase(): void {
+  public increase = (): void => {
     const positionToIncrease = this.createNewEndPositionToIncrease();
     this.snakeDataStructure.insertInEnd(positionToIncrease);
-  }
+  };
 
-  public getCoordinates(): Shared.Types.PositionLogType[] {
+  public getCoordinates = (): Shared.Types.PositionLogType[] => {
     return this.snakeDataStructure.getItems();
-  }
+  };
 
-  private createNewHeadPositionToMove(): Shared.Types.PositionLogType {
+  private createNewHeadPositionToMove = (): Shared.Types.PositionLogType => {
     const currentHeadPosition = this.snakeDataStructure.getHead();
     let newHeadPosition: Shared.Types.PositionLogType = currentHeadPosition;
 
@@ -77,9 +77,9 @@ export class SnakeEngine {
     }
 
     return newHeadPosition;
-  }
+  };
 
-  private createNewEndPositionToIncrease(): Shared.Types.PositionLogType {
+  private createNewEndPositionToIncrease = (): Shared.Types.PositionLogType => {
     const currentEndPosition = this.snakeDataStructure.getEnd();
     let newEndPosition: Shared.Types.PositionLogType = currentEndPosition;
 
@@ -116,5 +116,5 @@ export class SnakeEngine {
     }
 
     return newEndPosition;
-  }
+  };
 }

@@ -9,9 +9,8 @@ if (!rootElement) {
 const canvas = document.createElement("canvas");
 canvas.style.width = `500px`;
 canvas.style.height = `500px`;
-
 rootElement.appendChild(canvas);
 
-const app = new App({ elements: { HTMLCanvas: canvas } });
+const app = new App({ elements: { canvas } });
 
 console.log("App created", app);
