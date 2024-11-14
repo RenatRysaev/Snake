@@ -26,7 +26,7 @@ export class Display {
     options?: RenderOptions,
   ): void => {
     if (options?.removePreviousRender) {
-      this.clearDisplay();
+      this.clear();
     }
 
     this.renderingContext.fillStyle = Shared.Constants.SNAKE_COLOR;
@@ -41,7 +41,7 @@ export class Display {
     });
   };
 
-  private clearDisplay = (): void => {
+  private clear = (): void => {
     this.renderingContext.clearRect(
       0,
       0,
