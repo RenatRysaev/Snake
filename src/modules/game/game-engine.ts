@@ -1,6 +1,7 @@
 import { Snake } from "../snake";
 import { Food } from "../food";
 import { Display } from "../display";
+import { Shared } from "../../shared";
 
 type Props = {
   snake: Snake;
@@ -43,7 +44,7 @@ export class GameEngine {
       if (this.runId) {
         clearInterval(this.runId);
       }
-    }, 1000);
+    }, 100);
   };
 
   public stop = () => {
@@ -53,21 +54,29 @@ export class GameEngine {
   };
 
   private tick = () => {
-    this.calculatingNewCoordinatesForObjects();
+    this.calculateCoordinates();
     this.resolveCollisions();
     this.renderObjects();
   };
 
-  private calculatingNewCoordinatesForObjects = () => {
+  private calculateCoordinates = () => {
     this.snake.move();
-    // this.food.generate();
+
+    if (!this.food.hasCoordinates()) {
+      const snakeCoordinates = this.snake.getCoordinates();
+      this.food.generate({ forbiddenCoordinates: snakeCoordinates });
+    }
   };
 
   private resolveCollisions = () => {};
 
   private renderObjects = () => {
     this.display.render(this.snake.getCoordinates(), {
+      color: Shared.Constants.SNAKE_COLOR,
       removePreviousRender: true,
+    });
+    this.display.render(this.food.getCoordinates(), {
+      color: Shared.Constants.FOOD_COLOR,
     });
   };
 }

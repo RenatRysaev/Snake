@@ -1,6 +1,7 @@
 import { Shared } from "../../shared";
 
 type RenderOptions = {
+  color: string;
   removePreviousRender?: boolean;
 };
 
@@ -22,23 +23,31 @@ export class Display {
   }
 
   public render = (
-    coordinates: Shared.Types.PositionType[],
-    options?: RenderOptions,
+    coordinates: Shared.Types.PositionType | Shared.Types.PositionType[],
+    options: RenderOptions,
   ): void => {
     if (options?.removePreviousRender) {
       this.clear();
     }
 
-    this.renderingContext.fillStyle = Shared.Constants.SNAKE_COLOR;
+    if (coordinates instanceof Array) {
+      coordinates.forEach((coordinate) => this.fill(coordinate, options.color));
+    } else {
+      this.fill(coordinates, options.color);
+    }
+  };
 
-    coordinates.forEach((coordinate) => {
-      this.renderingContext.fillRect(
-        coordinate.x,
-        coordinate.y,
-        Shared.Constants.PIXEL_SIZE,
-        Shared.Constants.PIXEL_SIZE,
-      );
-    });
+  private fill = (
+    coordinates: Shared.Types.PositionType,
+    color: string,
+  ): void => {
+    this.renderingContext.fillStyle = color;
+    this.renderingContext.fillRect(
+      coordinates.x,
+      coordinates.y,
+      Shared.Constants.PIXEL_SIZE,
+      Shared.Constants.PIXEL_SIZE,
+    );
   };
 
   private clear = (): void => {

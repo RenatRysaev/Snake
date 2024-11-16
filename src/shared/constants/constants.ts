@@ -5,4 +5,5 @@ export const GAME_CANVAS_SIZE = {
   height: 500,
 };
 
-export const SNAKE_COLOR = "#346297";
+export const SNAKE_COLOR = "green";
+export const FOOD_COLOR = "red";
