@@ -45,8 +45,8 @@ export class Display {
     this.renderingContext.fillRect(
       coordinates.x,
       coordinates.y,
-      Shared.Constants.PIXEL_SIZE,
-      Shared.Constants.PIXEL_SIZE,
+      Shared.Constants.PIXEL_SIZE - 1,
+      Shared.Constants.PIXEL_SIZE - 1,
     );
   };
 
