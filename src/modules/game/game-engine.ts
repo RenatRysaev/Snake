@@ -88,8 +88,11 @@ export class GameEngine {
       color: Shared.Constants.SNAKE_COLOR,
       removePreviousRender: true,
     });
-    this.display.render(this.food.getCoordinates(), {
-      color: Shared.Constants.FOOD_COLOR,
-    });
+
+    if (this.food.hasCoordinates()) {
+      this.display.render(this.food.getCoordinates(), {
+        color: Shared.Constants.FOOD_COLOR,
+      });
+    }
   };
 }
