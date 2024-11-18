@@ -5,6 +5,7 @@ import { Game } from "../game";
 import { Snake } from "../snake";
 import { Food } from "../food";
 import { Display } from "../display";
+import { Score } from "../score";
 import { initialSnakeCoordinates } from "./app.constants.ts";
 
 type Props = {
@@ -20,6 +21,7 @@ export class App {
   private readonly snake: Snake;
   private readonly food: Food;
   private readonly display: Display;
+  private readonly score: Score;
 
   constructor(props: Props) {
     this.eventEmitter = new EventEmitter();
@@ -43,10 +45,13 @@ export class App {
       canvas: props.elements.canvas,
     });
 
+    this.score = new Score();
+
     this.game = new Game({
       snake: this.snake,
       food: this.food,
       display: this.display,
+      score: this.score,
     });
 
     this.game.start();

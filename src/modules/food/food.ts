@@ -1,4 +1,5 @@
 import { Shared } from "../../shared";
+import * as Utils from "./utils.ts";
 
 type CreateProps = {
   forbiddenCoordinates: Shared.Types.PositionType[];
@@ -24,8 +25,8 @@ export class Food {
     const maxY =
       Shared.Constants.GAME_CANVAS_SIZE.height - Shared.Constants.PIXEL_SIZE;
 
-    const randomX = this.getRandomNumber(min, maxX);
-    const randomY = this.getRandomNumber(min, maxY);
+    const randomX = Utils.getRandomNumber(min, maxX);
+    const randomY = Utils.getRandomNumber(min, maxY);
 
     const randomIsEqualToForbidden = forbiddenCoordinates.some(
       (coordinates) => coordinates.x === randomX || coordinates.y === randomY,
@@ -43,13 +44,5 @@ export class Food {
 
   public remove = (): void => {
     this.coordinates = null;
-  };
-
-  private getRandomNumber = (min: number, max: number): number => {
-    return (
-      Math.round(
-        (Math.random() * (max - min) + min) / Shared.Constants.PIXEL_SIZE,
-      ) * Shared.Constants.PIXEL_SIZE
-    );
   };
 }
