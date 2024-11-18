@@ -40,7 +40,9 @@ export class Snake {
     this.engine.increase();
   };
 
-  public getCoordinates = (): Shared.Types.PositionLogType[] => {
-    return this.engine.getCoordinates();
+  public getCoordinates = (): Shared.Types.PositionType[] => {
+    return this.engine
+      .getCoordinates()
+      .map((item) => ({ x: item.x, y: item.y }));
   };
 }
