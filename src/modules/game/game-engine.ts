@@ -2,7 +2,7 @@ import { Snake } from "../snake";
 import { Food } from "../food";
 import { Display } from "../display";
 import { Shared } from "../../shared";
-import { createKey } from "./utils";
+import * as Utils from "./utils";
 
 type Props = {
   snake: Snake;
@@ -59,7 +59,7 @@ export class GameEngine {
     const snakeCoordinates = this.snake.getCoordinates();
     const foodCoordinates = this.food.getCoordinates();
 
-    const hasCollisionWithFood = this.checkCollision(snakeCoordinates, [
+    const hasCollisionWithFood = Utils.checkCollision(snakeCoordinates, [
       foodCoordinates,
     ]);
 
@@ -70,10 +70,16 @@ export class GameEngine {
 
     const snakeHead = snakeCoordinates[0];
     const snakeTail = snakeCoordinates.slice(1);
-    const hasCollisionWithSnake = this.checkCollision(snakeTail, [snakeHead]);
+    const hasCollisionWithSnake = Utils.checkCollision(snakeTail, [snakeHead]);
 
     if (hasCollisionWithSnake) {
-      console.log("Oops we have a collision. Need stop the game");
+      console.log("Oops we have a collision(with snake). Need stop the game");
+    }
+
+    const hasCollisionWithBorders = Utils.checkCollisionWithBorders(snakeHead);
+
+    if (hasCollisionWithBorders) {
+      console.log("Oops we have a collision(with borders). Need stop the game");
     }
   };
 
@@ -85,28 +91,5 @@ export class GameEngine {
     this.display.render(this.food.getCoordinates(), {
       color: Shared.Constants.FOOD_COLOR,
     });
-  };
-
-  private checkCollision = (
-    src1: Shared.Types.PositionType[],
-    src2: Shared.Types.PositionType[],
-  ): boolean => {
-    let hasCollision = false;
-    const coordinatesMap = new Map<string, Shared.Types.PositionType>();
-
-    src1.forEach((src1Item) => {
-      const key = createKey(src1Item);
-      coordinatesMap.set(key, src1Item);
-    });
-
-    src2.forEach((src2Item) => {
-      const key = createKey(src2Item);
-
-      if (coordinatesMap.has(key)) {
-        hasCollision = true;
-      }
-    });
-
-    return hasCollision;
   };
 }
