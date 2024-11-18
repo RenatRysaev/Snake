@@ -1,6 +1,7 @@
 import { Shared } from "../../shared";
 import { SnakeEngine } from "./snake-engine.ts";
 import { EventEmitter } from "../event-emitter";
+import { oppositeDirections } from "./constants.ts";
 
 type Props = {
   eventEmitter: EventEmitter;
@@ -20,7 +21,7 @@ export class Snake {
       eventId: Shared.Types.EventId.ChangeSnakeDirection,
       subscriber: (
         event: Shared.Types.Event<{ direction: Shared.Types.Direction }>,
-      ) => this.setDirection(event.payload.direction),
+      ) => this.handleChangeSnakeDirection(event.payload.direction),
     });
   }
 
@@ -44,5 +45,18 @@ export class Snake {
     return this.engine
       .getCoordinates()
       .map((item) => ({ x: item.x, y: item.y }));
+  };
+
+  private handleChangeSnakeDirection = (
+    direction: Shared.Types.Direction,
+  ): void => {
+    const isOppositeDirection =
+      oppositeDirections.get(this.getDirection()) === direction;
+
+    if (isOppositeDirection) {
+      return;
+    }
+
+    this.setDirection(direction);
   };
 }
