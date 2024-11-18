@@ -67,6 +67,14 @@ export class GameEngine {
       this.food.remove();
       this.snake.increase();
     }
+
+    const snakeHead = snakeCoordinates[0];
+    const snakeTail = snakeCoordinates.slice(1);
+    const hasCollisionWithSnake = this.checkCollision(snakeTail, [snakeHead]);
+
+    if (hasCollisionWithSnake) {
+      console.log("Oops we have a collision. Need stop the game");
+    }
   };
 
   private renderObjects = () => {
