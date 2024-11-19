@@ -7,10 +7,13 @@ import { Food } from "../food";
 import { Display } from "../display";
 import { Score } from "../score";
 import { initialSnakeCoordinates } from "./app.constants.ts";
+import * as Utils from "./utils.ts";
 
 type Props = {
   elements: {
     canvas: HTMLCanvasElement;
+    startGameButton: HTMLButtonElement;
+    startScreen: HTMLDivElement;
   };
 };
 
@@ -33,6 +36,10 @@ export class App {
       this.controller.handleChangeSnakeDirection(event.code);
     });
 
+    props.elements.startGameButton.addEventListener("click", () => {
+      this.startGame(props.elements.startScreen);
+    });
+
     this.snake = new Snake({
       eventEmitter: this.eventEmitter,
       direction: Shared.Types.Direction.Right,
@@ -53,7 +60,10 @@ export class App {
       display: this.display,
       score: this.score,
     });
-
-    this.game.start();
   }
+
+  private startGame = (startScreen: HTMLDivElement) => {
+    Utils.hideElement(startScreen);
+    this.game.start();
+  };
 }

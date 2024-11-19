@@ -47,7 +47,7 @@ export class GameEngine {
   private tick = () => {
     this.calculateCoordinates();
     this.resolveCollisions();
-    this.renderObjects();
+    this.renderCoordinates();
   };
 
   private calculateCoordinates = () => {
@@ -88,7 +88,7 @@ export class GameEngine {
     }
   };
 
-  private renderObjects = () => {
+  private renderCoordinates = () => {
     this.display.render(this.snake.getCoordinates(), {
       color: Shared.Constants.SNAKE_COLOR,
       removePreviousRender: true,
