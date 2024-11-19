@@ -18,6 +18,24 @@ if (!startGameButton) {
   throw new Error("Не найден startScreen");
 }
 
-const app = new App({ elements: { canvas, startGameButton, startScreen } });
+const endScreen = document.getElementById("end-screen") as HTMLDivElement;
+if (!endScreen) {
+  throw new Error("Не найден endScreen");
+}
+
+const scoreElement = document.getElementById("score") as HTMLSpanElement;
+if (!scoreElement) {
+  throw new Error("Не найден scoreElement");
+}
+
+const app = new App({
+  elements: {
+    canvas,
+    startGameButton,
+    startScreen,
+    endScreen,
+    scoreElement,
+  },
+});
 
 console.log("App created", app);

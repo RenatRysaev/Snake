@@ -23,7 +23,7 @@ export class EventEmitter {
   };
 
   public emit = (event: Shared.Types.Event): void => {
-    const subscribersByEventType = this.subscribers[event.id];
+    const subscribersByEventType = this.subscribers[event.eventId];
 
     if (subscribersByEventType) {
       subscribersByEventType.forEach((subscriber) => {

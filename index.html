@@ -9,11 +9,17 @@
   <body>
     <div id="app">
       <canvas id="canvas" width="500" height="500"></canvas>
+
       <div id="start-screen">
         <button id="start-game-button">Начать игру</button>
       </div>
 
-      <div id="end-screen"></div>
+      <div id="end-screen">
+        <div>
+          <h1>Игра закончена</h1>
+          <span>Ваши очки: <span id="score"></span></span>
+        </div>
+      </div>
     </div>
     <script type="module" src="/src/index.ts"></script>
   </body>

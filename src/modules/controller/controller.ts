@@ -19,11 +19,17 @@ export class Controller {
 
     if (direction) {
       this.eventEmitter.emit({
-        id: Shared.Types.EventId.ChangeSnakeDirection,
+        eventId: Shared.Types.EventId.ChangeSnakeDirection,
         payload: {
           direction,
         },
       });
     }
+  };
+
+  public handleStartGame = (): void => {
+    this.eventEmitter.emit({
+      eventId: Shared.Types.EventId.StartGame,
+    });
   };
 }

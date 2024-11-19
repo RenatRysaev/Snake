@@ -4,8 +4,10 @@ import { Food } from "../food";
 import { Display } from "../display";
 import { Score } from "../score";
 import * as Utils from "./utils";
+import { EventEmitter } from "../event-emitter";
 
 type Props = {
+  eventEmitter: EventEmitter;
   snake: Snake;
   food: Food;
   display: Display;
@@ -13,6 +15,7 @@ type Props = {
 };
 
 export class GameEngine {
+  private readonly eventEmitter: EventEmitter;
   private runId: NodeJS.Timeout | null = null;
   private snake: Snake;
   private food: Food;
@@ -20,6 +23,7 @@ export class GameEngine {
   private score: Score;
 
   constructor(props: Props) {
+    this.eventEmitter = props.eventEmitter;
     this.snake = props.snake;
     this.food = props.food;
     this.display = props.display;
@@ -42,6 +46,13 @@ export class GameEngine {
     if (this.runId) {
       clearInterval(this.runId);
     }
+
+    this.eventEmitter.emit({
+      eventId: Shared.Types.EventId.GameOver,
+      payload: {
+        score: this.score.getResult(),
+      },
+    });
   };
 
   private tick = () => {
@@ -77,14 +88,12 @@ export class GameEngine {
 
     const hasCollisionWithSnake = Utils.checkCollision(snakeTail, [snakeHead]);
     if (hasCollisionWithSnake) {
-      console.log("Oops we have a collision(with snake). Need stop the game");
-      console.log("scored points", this.score.getResult());
+      this.stop();
     }
 
     const hasCollisionWithBorders = Utils.checkCollisionWithBorders(snakeHead);
     if (hasCollisionWithBorders) {
-      console.log("Oops we have a collision(with borders). Need stop the game");
-      console.log("scored points", this.score.getResult());
+      this.stop();
     }
   };
 
