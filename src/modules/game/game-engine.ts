@@ -3,8 +3,8 @@ import { Snake } from "../snake";
 import { Food } from "../food";
 import { Display } from "../display";
 import { Score } from "../score";
-import * as Utils from "./utils";
 import { EventEmitter } from "../event-emitter";
+import * as Utils from "./utils";
 
 type Props = {
   eventEmitter: EventEmitter;
@@ -16,7 +16,8 @@ type Props = {
 
 export class GameEngine {
   private readonly eventEmitter: EventEmitter;
-  private runId: NodeJS.Timeout | null = null;
+  private frameId: number | null = null;
+  private skippedFramesCounter: number = 0;
   private snake: Snake;
   private food: Food;
   private display: Display;
@@ -31,28 +32,46 @@ export class GameEngine {
   }
 
   public run = () => {
-    this.tick();
+    this.frameId = requestAnimationFrame(this.run);
 
-    this.runId = setInterval(() => {
-      this.run();
+    if (this.frameId) {
+      const shouldSkipFrame = this.checkSkipFrame();
 
-      if (this.runId) {
-        clearInterval(this.runId);
+      if (shouldSkipFrame) {
+        this.increaseSkippedFramesCounter();
+      } else {
+        this.resetSkippedFramesCounter();
+        this.tick();
       }
-    }, 100);
+    }
   };
 
   public stop = () => {
-    if (this.runId) {
-      clearInterval(this.runId);
+    if (this.frameId) {
+      cancelAnimationFrame(this.frameId);
+      this.frameId = null;
     }
 
     this.eventEmitter.emit({
       eventId: Shared.Types.EventId.GameOver,
       payload: {
-        score: this.score.getResult(),
+        score: this.score.getPoints(),
       },
     });
+  };
+
+  private checkSkipFrame = (): boolean => {
+    const initialSkippingFrames = 7;
+    const skippingFrames = initialSkippingFrames - this.score.getLevel();
+    return this.skippedFramesCounter <= skippingFrames;
+  };
+
+  private increaseSkippedFramesCounter = (): void => {
+    this.skippedFramesCounter += 1;
+  };
+
+  private resetSkippedFramesCounter = (): void => {
+    this.skippedFramesCounter = 0;
   };
 
   private tick = () => {

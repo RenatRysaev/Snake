@@ -1,15 +1,19 @@
 export class Score {
-  private result: number = 0;
+  private points: number = 0;
 
-  public getResult = (): number => {
-    return this.result;
+  public getPoints = (): number => {
+    return this.points;
+  };
+
+  public getLevel = (): number => {
+    return Math.floor(this.points / 5);
   };
 
   public increase = (): void => {
-    this.result += 1;
+    this.points += 1;
   };
 
   public reset = (): void => {
-    this.result = 0;
+    this.points = 0;
   };
 }
