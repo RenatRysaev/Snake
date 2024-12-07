@@ -1,33 +1,31 @@
-import { Shared } from "../../shared";
-
-type Subscriber = (payload: any) => void;
-type Subscribers = {
-  [key in Shared.Types.EventId]?: Subscriber[];
-};
-
-type SubscribeDetails = {
-  eventId: Shared.Types.EventId;
-  subscriber: Subscriber;
-};
+import {
+  Event,
+  Listeners,
+  ListenerDetails,
+  EventNames,
+} from "./event-emitter.types.ts";
 
 export class EventEmitter {
-  private readonly subscribers: Subscribers = {};
+  private readonly listeners: Listeners = {};
 
-  public subscribe = (subscribeDetails: SubscribeDetails): void => {
-    const { eventId, subscriber } = subscribeDetails;
+  public on = <T extends EventNames>(
+    subscribeDetails: ListenerDetails<T>,
+  ): void => {
+    const { name, subscriber } = subscribeDetails;
 
-    this.subscribers[eventId] = [
-      ...(this.subscribers[eventId] ?? []),
-      subscriber,
-    ];
+    if (!this.listeners[name]) {
+      this.listeners[name] = [];
+    }
+
+    this.listeners[name]?.push(subscriber);
   };
 
-  public emit = (event: Shared.Types.Event): void => {
-    const subscribersByEventType = this.subscribers[event.eventId];
+  public emit = <T extends EventNames>(event: Event<T>): void => {
+    const listenersByEventType = this.listeners[event.name];
 
-    if (subscribersByEventType) {
-      subscribersByEventType.forEach((subscriber) => {
-        subscriber(event);
+    if (listenersByEventType) {
+      listenersByEventType.forEach((listener) => {
+        listener(event as any);
       });
     }
   };

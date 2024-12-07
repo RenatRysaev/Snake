@@ -1,4 +1,3 @@
-import { Shared } from "../../shared";
 import { EventEmitter } from "../event-emitter";
 
 import { MAP_KEY_CODE_TO_SNAKE_DIRECTION } from "./controller.constants.ts";
@@ -19,7 +18,7 @@ export class Controller {
 
     if (direction) {
       this.eventEmitter.emit({
-        eventId: Shared.Types.EventId.ChangeSnakeDirection,
+        name: "change-snake-direction",
         payload: {
           direction,
         },
@@ -29,7 +28,7 @@ export class Controller {
 
   public handleStartGame = (): void => {
     this.eventEmitter.emit({
-      eventId: Shared.Types.EventId.StartGame,
+      name: "start-game",
     });
   };
 }

@@ -17,11 +17,10 @@ export class Snake {
     this.eventEmitter = props.eventEmitter;
     this.engine = new SnakeEngine(props);
 
-    this.eventEmitter.subscribe({
-      eventId: Shared.Types.EventId.ChangeSnakeDirection,
-      subscriber: (
-        event: Shared.Types.Event<{ direction: Shared.Types.Direction }>,
-      ) => this.handleChangeSnakeDirection(event.payload.direction),
+    this.eventEmitter.on({
+      name: "change-snake-direction",
+      subscriber: (event) =>
+        this.handleChangeSnakeDirection(event.payload.direction),
     });
   }
 

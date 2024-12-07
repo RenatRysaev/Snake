@@ -1,4 +1,3 @@
-import { Shared } from "../../shared";
 import { Snake } from "../snake";
 import { Food } from "../food";
 import { GameEngine } from "./game-engine.ts";
@@ -22,8 +21,8 @@ export class Game {
     this.eventEmitter = props.eventEmitter;
     this.engine = new GameEngine(props);
 
-    this.eventEmitter.subscribe({
-      eventId: Shared.Types.EventId.StartGame,
+    this.eventEmitter.on({
+      name: "start-game",
       subscriber: this.start,
     });
   }

@@ -1,4 +1,3 @@
-import { Shared } from "../../shared";
 import { EventEmitter } from "../event-emitter";
 import { Controller } from "../controller";
 import * as Utils from "./utils.ts";
@@ -24,15 +23,14 @@ export class View {
     this.controller = props.controller;
     this.elements = props.elements;
 
-    this.eventEmitter.subscribe({
-      eventId: Shared.Types.EventId.StartGame,
+    this.eventEmitter.on({
+      name: "start-game",
       subscriber: this.handleStartGame,
     });
 
-    this.eventEmitter.subscribe({
-      eventId: Shared.Types.EventId.GameOver,
-      subscriber: (event: Shared.Types.Event<{ score: number }>) =>
-        this.handleStopGame(event.payload.score),
+    this.eventEmitter.on({
+      name: "end-game",
+      subscriber: (event) => this.handleStopGame(event.payload.score),
     });
 
     this.initializeListeners();

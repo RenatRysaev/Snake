@@ -53,7 +53,7 @@ export class GameEngine {
     }
 
     this.eventEmitter.emit({
-      eventId: Shared.Types.EventId.GameOver,
+      name: "end-game",
       payload: {
         score: this.score.getPoints(),
       },
